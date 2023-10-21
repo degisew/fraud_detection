@@ -2,12 +2,12 @@
 
 {% block content%}
  <form action="" method="POST">
+    {% csrf_token%}
     <div class="container">
-        <input type="text" name="name" id="name">
-        <input type="number" name="amount" id="amount">
-
-        <input type="submit" value="submit">
-        <!-- <input type="text" name="name" id="name"> -->
+        {% for form in forms %}
+        {{form}}
+        {% endfor%}
+        <input type="submit" value="submit"> 
     </div>
  </form>
 {% endblock %}
