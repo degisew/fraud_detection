@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from .form import TransactionForm
 
-# Create your views here.
+form = TransactionForm()
+
+def create_transaction(request):
+    context = {'forms': form}
+    return render(request, 'core/transact_form.html', context)
