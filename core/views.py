@@ -22,7 +22,7 @@ def register(request):
     else:
         form = CreateUserForm()
 
-    return render(request, 'core/register.html', {'form': form})
+    return render(request, 'core/login_register_form.html', {'form': form})
 
 
 def user_login(request):
@@ -37,7 +37,7 @@ def user_login(request):
         else:
            return HttpResponse('Authentication Failed!')
         
-    return render(request, 'core/login.html', {'form':form})
+    return render(request, 'core/login_register_form.html', {'form':form})
 
 
 def user_logout(request):
