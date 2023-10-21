@@ -4,9 +4,7 @@
  <form action="" method="POST">
     {% csrf_token%}
     <div class="container">
-        {% for form in forms %}
-        {{form}}
-        {% endfor%}
+        {{form.as_p}}
         <input type="submit" value="submit"> 
     </div>
  </form>
