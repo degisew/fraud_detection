@@ -22,7 +22,7 @@ def register(request):
     else:
         form = CreateUserForm()
 
-    return render(request, 'core/login_register_form.html', {'form': form})
+    return render(request, 'core/login_register_form.html', {'form': form, 'btn_value': 'Register'})
 
 
 def user_login(request):
@@ -33,11 +33,11 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('profile')  # Redirect to user's profile page
+            return redirect('create-transact')  # Redirect to user's profile page
         else:
            return HttpResponse('Authentication Failed!')
         
-    return render(request, 'core/login_register_form.html', {'form':form})
+    return render(request, 'core/login_register_form.html', {'form':form, 'btn_value': 'login'})
 
 
 def user_logout(request):
