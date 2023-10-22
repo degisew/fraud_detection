@@ -1,4 +1,3 @@
-from collections.abc import Iterable
 from django.db import models
 from django.conf import settings
 
@@ -15,6 +14,3 @@ class Transaction(models.Model):
         else:
             self.is_fraudlent = False
         return super().save()
-    
-class FraudAlert(models.Model):
-    pass
