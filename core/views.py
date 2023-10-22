@@ -1,4 +1,4 @@
-from django.contrib import auth, messages
+from django.contrib import auth
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .form import TransactionForm, CreateUserForm, LoginForm
@@ -10,7 +10,6 @@ def create_transaction(request):
     if form.is_valid():
         form.instance.user = request.user
         form.save()
-        messages.success(request, message='Succesfuly added!')
     return render(request, 'core/transact_form.html', {'form': form})
 
 
@@ -20,7 +19,6 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, message='Succesfuly Registered!')
             return redirect('login')  # Redirect to login page
     else:
         form = CreateUserForm()
@@ -36,7 +34,6 @@ def user_login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            messages.success(request, message="You're Loggedin!")
             return redirect('create-transact')  # Redirect to user's profile page
         else:
            return HttpResponse('Authentication Failed!')
