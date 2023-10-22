@@ -8,7 +8,7 @@ from .models import Transaction
 class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ['user', 'amount']
+        fields = ['amount']
 
 
 class CreateUserForm(UserCreationForm):
