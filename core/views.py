@@ -1,9 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .form import TransactionForm, CreateUserForm, LoginForm
 
-
+@login_required(login_url='/login/')
 def create_transaction(request):
     form = TransactionForm()
     form = TransactionForm(request.POST)
