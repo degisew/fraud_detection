@@ -1,9 +1,20 @@
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from .models import Transaction
 from .form import TransactionForm, CreateUserForm, LoginForm
 
+
+def detect_fraud(user):
+    daily_transaction_count = Transaction.objects.filter(
+        user = user,
+        timestamp__gte = datetime.datetime.now() - datetime.timedelta(days=1)).count()
+    print('#############', daily_transaction_count)
+    if daily_transaction_count > 3:
+        user.is_fraud = True
+        user.save()
 
 @login_required(login_url='/login/')
 def create_transaction(request):
@@ -11,7 +22,9 @@ def create_transaction(request):
     if form.is_valid():
         form.instance.user = request.user
         form.save()
+          # Call the detect_fraud function to check for fraud
         form = TransactionForm()
+    detect_fraud(request.user)
     return render(request, 'core/transact_form.html', {'form': form})
 
 
