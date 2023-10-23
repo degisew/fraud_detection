@@ -4,23 +4,24 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .form import TransactionForm, CreateUserForm, LoginForm
 
+
 @login_required(login_url='/login/')
 def create_transaction(request):
-    form = TransactionForm()
     form = TransactionForm(request.POST)
     if form.is_valid():
         form.instance.user = request.user
         form.save()
+        form = TransactionForm()
     return render(request, 'core/transact_form.html', {'form': form})
 
 
 def register(request):
-    form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page
+            form = CreateUserForm()
+            return redirect('login')
     else:
         form = CreateUserForm()
 
@@ -35,7 +36,7 @@ def user_login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('create-transact')  # Redirect to user's profile page
+            return redirect('create-transact')
         else:
            return HttpResponse('Authentication Failed!')
         
@@ -44,4 +45,4 @@ def user_login(request):
 
 def user_logout(request):
     auth.logout(request)
-    return redirect('login')  # Redirect to the login page after logout
+    return redirect('login')
