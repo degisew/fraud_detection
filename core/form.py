@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.conf import settings
-from .models import Transaction
+from .models import CustomUser, Transaction
 
 class TransactionForm(ModelForm):
     class Meta:
@@ -13,7 +13,7 @@ class TransactionForm(ModelForm):
 
 class CreateUserForm(UserCreationForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['first_name','last_name', 'username', 'email', 'password1' ,'password2']
 
 
