@@ -8,13 +8,25 @@ from .form import TransactionForm, CreateUserForm, LoginForm
 
 
 def detect_fraud(user):
-    daily_transaction_count = Transaction.objects.filter(
+    # daily_transaction_count = Transaction.objects.filter(
+    #     user = user,
+    #     timestamp__gte = datetime.datetime.now() - datetime.timedelta(days=1)).count()
+    # print('#############', daily_transaction_count)
+    # if daily_transaction_count > 3:
+    #     user.is_fraud = True
+    #     user.save()
+
+    daily_transactions = Transaction.objects.filter(
         user = user,
-        timestamp__gte = datetime.datetime.now() - datetime.timedelta(days=1)).count()
-    print('#############', daily_transaction_count)
-    if daily_transaction_count > 3:
-        user.is_fraud = True
-        user.save()
+        timestamp__gte = datetime.datetime.now() - datetime.timedelta(days=1))
+    print('#############', daily_transactions)
+    total_amount = 0
+    for dt in daily_transactions:
+        total_amount += dt.amount
+        if total_amount > 100:
+            user.is_fraud = True
+            user.save()
+
 
 @login_required(login_url='/login/')
 def create_transaction(request):
